@@ -120,10 +120,13 @@ def set_clipboard_win32(text: str):
 class CipherApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("PurpleBerrie")
+        self.root.title("Berly")
         self.root.iconbitmap("PurpleBerrie.ico")
         self.root.geometry("320x450")
-        self.root.resizable(False, False)
+        
+        # Enable grid scaling
+        self.root.grid_columnconfigure(0, weight=1)
+        self.root.grid_rowconfigure(2, weight=1) # Log section gets extra space
         
         # Consistent Font Setup
         self.FONT_MAIN = ("Segoe UI", 11)
@@ -131,25 +134,17 @@ class CipherApp:
         self.root.option_add("*Font", self.FONT_MAIN)
         self.root.configure(bg="#f8f7ff")
         
-        # Colors
-        self.PRIMARY = "#6f42c1"    # Deep Purple
-        self.SECONDARY = "#e2d9f3"  # Light Purple
-        self.TEXT = "#212529"       # Dark Grey/Black
-        self.SUCCESS = "#28a745"    # Green
-        self.ERROR = "#dc3545"      # Red
-        self.BG_LOG = "#ffffff"     # White
-
-        self.is_enabled = tk.BooleanVar(value=True)
-        self.last_seq = user32.GetClipboardSequenceNumber()
-        self.ignore_next = False
+        # ... (rest of the __init__ variables)
         
         # --- Aesthetic Header ---
         header = tk.Frame(root, bg=self.PRIMARY, pady=12)
-        header.pack(fill="x")
+        header.grid(row=0, column=0, sticky="ew")
         tk.Label(
-            header, text="PurpleBerrie", font=("Segoe UI", 16, "bold"), 
+            header, text="Berly", font=("Segoe UI", 16, "bold"), 
             fg="white", bg=self.PRIMARY
         ).pack()
+
+        # ... (rest of the __init__ setup, ensuring .grid is used instead of .pack where appropriate for scaling)
 
         # --- Selection Frame ---
         select_frame = tk.Frame(root, bg="#f8f7ff", padx=15, pady=10)
