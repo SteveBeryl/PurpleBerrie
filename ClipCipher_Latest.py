@@ -125,9 +125,10 @@ class CipherApp:
         self.root.geometry("320x450")
         self.root.resizable(False, False)
         
-        # Enhanced text clarity: Use system default font sizes if possible, 
-        # but sticking to current layout as per restriction.
-        self.root.option_add("*Font", "SegoeUI 10")
+        # Consistent Font Setup
+        self.FONT_MAIN = ("Segoe UI", 11)
+        self.FONT_BOLD = ("Segoe UI", 11, "bold")
+        self.root.option_add("*Font", self.FONT_MAIN)
         self.root.configure(bg="#f8f7ff")
         
         # Colors
@@ -146,18 +147,18 @@ class CipherApp:
         header = tk.Frame(root, bg=self.PRIMARY, pady=12)
         header.pack(fill="x")
         tk.Label(
-            header, text="PurpleBerrie", font=("Segoe UI", 14, "bold"), 
+            header, text="PurpleBerrie", font=("Segoe UI", 16, "bold"), 
             fg="white", bg=self.PRIMARY
         ).pack()
 
         # --- Selection Frame ---
         select_frame = tk.Frame(root, bg="#f8f7ff", padx=15, pady=10)
         select_frame.pack(fill="x")
-        tk.Label(select_frame, text="Method:", bg="#f8f7ff").pack(side="left")
+        tk.Label(select_frame, text="Method:", bg="#f8f7ff", font=self.FONT_MAIN).pack(side="left")
         self.method_var = tk.StringVar(value="Affine")
         self.method_dropdown = ttk.Combobox(
             select_frame, textvariable=self.method_var, 
-            values=sorted(list(CIPHER_MAP.keys())), state="readonly"
+            values=sorted(list(CIPHER_MAP.keys())), state="readonly", font=self.FONT_MAIN
         )
         self.method_dropdown.pack(side="right", fill="x", expand=True)
 
@@ -167,13 +168,13 @@ class CipherApp:
         
         self.switch_btn = tk.Button(
             card, text="ON", command=self.toggle_monitoring,
-            font=("Consolas", 10, "bold"), bg="#55ff55", fg="black",
+            font=self.FONT_BOLD, bg="#55ff55", fg="black",
             width=6, relief="raised", cursor="hand2"
         )
         self.switch_btn.pack(side="right")
         
         self.status_label = tk.Label(
-            card, text="ACTIVATED", font=("Segoe UI", 10, "bold"), 
+            card, text="ACTIVATED", font=self.FONT_BOLD, 
             fg=self.SUCCESS, bg="#ffffff"
         )
         self.status_label.pack(side="left")
@@ -182,20 +183,20 @@ class CipherApp:
         log_frame = tk.Frame(root, bg="#f8f7ff", padx=15)
         log_frame.pack(fill="both", expand=True)
         
-        tk.Label(log_frame, text="ACTIVITY", font=("Segoe UI", 9, "bold"), 
+        tk.Label(log_frame, text="ACTIVITY", font=self.FONT_BOLD, 
                  fg=self.PRIMARY, bg="#f8f7ff").pack(anchor="w", pady=(0, 5))
         
         self.log_box = tk.Text(
-            log_frame, state="disabled", font=("Consolas", 9),
+            log_frame, state="disabled", font=("Consolas", 10),
             bg=self.BG_LOG, fg=self.TEXT, padx=8, pady=8,
             relief="flat", highlightthickness=1, highlightbackground=self.SECONDARY,
-            wrap="word", height=6
+            wrap="word", height=8
         )
         self.log_box.pack(fill="both", expand=True, pady=(0, 15))
 
-        self.log_box.tag_configure("msg", foreground=self.TEXT)
-        self.log_box.tag_configure("highlight", foreground=self.PRIMARY, font=("Consolas", 9, "bold"))
-        self.log_box.tag_configure("time", foreground="#9b8bb1")
+        self.log_box.tag_configure("msg", foreground=self.TEXT, font=self.FONT_MAIN)
+        self.log_box.tag_configure("highlight", foreground=self.PRIMARY, font=self.FONT_BOLD)
+        self.log_box.tag_configure("time", foreground="#9b8bb1", font=self.FONT_MAIN)
 
         self.log("App ready", "msg")
         
