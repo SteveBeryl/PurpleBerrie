@@ -5,8 +5,19 @@ try:
 except Exception:
     pass
 
-import time
-import tkinter as tk
+import sys
+import os
+
+def resource_path(relative_path):
+    """ Get absolute path to resource, works for dev and for PyInstaller """
+    try:
+        # PyInstaller creates a temp folder and stores path in _MEIPASS
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
+
 from tkinter import ttk
 import codecs
 import base64
@@ -121,7 +132,7 @@ class CipherApp:
     def __init__(self, root):
         self.root = root
         self.root.title("PurpleBerrie")
-        self.root.iconbitmap("PurpleBerrie.ico")
+        self.root.iconbitmap(resource_path("PurpleBerrie.ico"))
         self.root.geometry("320x450")
         
         # Transparency setup
