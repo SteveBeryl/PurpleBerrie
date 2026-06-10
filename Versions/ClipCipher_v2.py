@@ -91,7 +91,7 @@ class CipherApp:
         log_container = ttk.Frame(root, padding=(15, 0, 15, 15))
         log_container.pack(fill="both", expand=True)
         
-        ttk.Label(log_container, text="Activity Log", font=("Segoe UI", 10, "bold")).pack(anchor="w", pady=(0, 5))
+        ttk.Label(log_container, text="Activity Log", font=("Segoe UI", 10, "bold")).pack(anchor="w", pady=5)
         
         # Scrollbar for the log
         scrollbar = ttk.Scrollbar(log_container)

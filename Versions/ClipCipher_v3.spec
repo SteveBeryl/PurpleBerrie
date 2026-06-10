@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['ClipCipher_v3.py'],
+    ['Versions\\ClipCipher_v3.py'],
     pathex=[],
     binaries=[],
     datas=[],

@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['ClipCipher_Latest.py'],
+    ['Versions\\ClipCipher_v3.py'],
     pathex=[],
     binaries=[],
     datas=[],
@@ -22,7 +22,7 @@ exe = EXE(
     a.binaries,
     a.datas,
     [],
-    name='ClipCipher_Latest',
+    name='ClipCipher_v3',
     debug=False,
     bootloader_ignore_signals=False,
     strip=False,

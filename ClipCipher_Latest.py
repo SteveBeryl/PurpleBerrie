@@ -106,10 +106,10 @@ class CipherApp:
         
         # --- Log Container ---
         log_container = tk.Frame(root, bg="#ffffff")
-        log_container.pack(fill="both", expand=True, padx=20, pady=(0, 20))
+        log_container.pack(fill="both", expand=True, padx=20, pady=10)
         
         log_header = tk.Frame(log_container, bg="#ffffff")
-        log_header.pack(fill="x", pady=(0, 10))
+        log_header.pack(fill="x", pady=5)
         tk.Label(log_header, text="ACTIVITY LOG", font=("Segoe UI", 9, "bold"), fg="#6c757d", bg="#ffffff").pack(side="left")
         
         # Log Box with custom styling
