@@ -7,6 +7,7 @@ except Exception:
 
 import sys
 import os
+import time
 
 def resource_path(relative_path):
     """ Get absolute path to resource, works for dev and for PyInstaller """
