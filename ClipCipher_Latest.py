@@ -123,7 +123,7 @@ class CipherApp:
         self.root.title("Berly")
         self.root.iconbitmap("PurpleBerrie.ico")
         self.root.geometry("320x450")
-        self.root.attributes('-alpha', 0.8)
+        self.root.attributes('-alpha', 0.9)
         
         # Enable grid scaling
         self.root.grid_columnconfigure(0, weight=1)
