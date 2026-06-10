@@ -146,19 +146,9 @@ class CipherApp:
         self.last_seq = user32.GetClipboardSequenceNumber()
         self.ignore_next = False
         
-        # --- Aesthetic Header ---
-        header = tk.Frame(root, bg=self.PRIMARY, pady=12)
-        header.grid(row=0, column=0, sticky="ew")
-        tk.Label(
-            header, text="Berly", font=("Segoe UI", 16, "bold"), 
-            fg="white", bg=self.PRIMARY
-        ).pack()
-
-        # ... (rest of the __init__ setup, ensuring .grid is used instead of .pack where appropriate for scaling)
-
         # --- Selection Frame ---
         select_frame = tk.Frame(root, bg="#f8f7ff", padx=15, pady=10)
-        select_frame.grid(row=1, column=0, sticky="ew")
+        select_frame.grid(row=0, column=0, sticky="ew")
         tk.Label(select_frame, text="Method:", bg="#f8f7ff", font=self.FONT_MAIN).pack(side="left")
         self.method_var = tk.StringVar(value="Affine")
         self.method_dropdown = ttk.Combobox(
