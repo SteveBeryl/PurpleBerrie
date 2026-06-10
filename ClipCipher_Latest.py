@@ -158,7 +158,7 @@ class CipherApp:
 
         # --- Selection Frame ---
         select_frame = tk.Frame(root, bg="#f8f7ff", padx=15, pady=10)
-        select_frame.pack(fill="x")
+        select_frame.grid(row=1, column=0, sticky="ew")
         tk.Label(select_frame, text="Method:", bg="#f8f7ff", font=self.FONT_MAIN).pack(side="left")
         self.method_var = tk.StringVar(value="Affine")
         self.method_dropdown = ttk.Combobox(
@@ -169,7 +169,7 @@ class CipherApp:
 
         # --- Status & Control Card ---
         card = tk.Frame(root, bg="#ffffff", padx=15, pady=15, highlightthickness=1, highlightbackground=self.SECONDARY)
-        card.pack(fill="x", padx=15, pady=15)
+        card.grid(row=2, column=0, padx=15, pady=15, sticky="ew")
         
         self.switch_btn = tk.Button(
             card, text="ON", command=self.toggle_monitoring,
@@ -186,7 +186,7 @@ class CipherApp:
         
         # --- Log Section ---
         log_frame = tk.Frame(root, bg="#f8f7ff", padx=15)
-        log_frame.pack(fill="both", expand=True)
+        log_frame.grid(row=3, column=0, sticky="nsew")
         
         tk.Label(log_frame, text="ACTIVITY", font=self.FONT_BOLD, 
                  fg=self.PRIMARY, bg="#f8f7ff").pack(anchor="w", pady=(0, 5))
