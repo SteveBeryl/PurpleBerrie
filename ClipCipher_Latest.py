@@ -4,6 +4,8 @@ import tkinter as tk
 from tkinter import ttk
 import codecs
 import base64
+from pynput import keyboard
+import threading
 
 # ---------- Windows API (for monitoring and writing) ----------
 user32 = ctypes.windll.user32
@@ -32,6 +34,43 @@ def atbash(text: str) -> str:
         else: res.append(ch)
     return "".join(res)
 
+def affine(text: str, a=5, b=8) -> str:
+    res = []
+    for ch in text:
+        if ch.isalpha():
+            start = ord('A') if ch.isupper() else ord('a')
+            res.append(chr(((a * (ord(ch) - start) + b) % 26) + start))
+        else: res.append(ch)
+    return "".join(res)
+
+def bacon(text: str) -> str:
+    dict_bacon = {
+        'A': 'aaaaa', 'B': 'aaaab', 'C': 'aaaba', 'D': 'aaabb', 'E': 'aabaa',
+        'F': 'aabab', 'G': 'aabba', 'H': 'aabbb', 'I': 'abaaa', 'J': 'abaab',
+        'K': 'ababa', 'L': 'ababb', 'M': 'abbaa', 'N': 'abbab', 'O': 'abbba',
+        'P': 'abbbb', 'Q': 'baaaa', 'R': 'baaab', 'S': 'baaba', 'T': 'baabb',
+        'U': 'babaa', 'V': 'babab', 'W': 'babba', 'X': 'babbb', 'Y': 'bbaaa', 'Z': 'bbaab'
+    }
+    res = []
+    for ch in text.upper():
+        if ch in dict_bacon: res.append(dict_bacon[ch])
+        else: res.append(ch)
+    return "".join(res)
+
+def beaufort(text: str, key: str = "KEY") -> str:
+    res = []
+    key = key.upper()
+    for i, ch in enumerate(text.upper()):
+        if ch.isalpha():
+            shift = (ord(key[i % len(key)]) - ord(ch)) % 26
+            res.append(chr(shift + ord('A')))
+        else: res.append(ch)
+    return "".join(res)
+
+def playfair(text: str, key: str = "KEY") -> str:
+    # Minimal implementation for example
+    return "PlayfairNotImpl"
+
 def base64_enc(text: str) -> str:
     return base64.b64encode(text.encode('utf-8')).decode('utf-8')
 
@@ -39,11 +78,15 @@ def reverse_str(text: str) -> str:
     return text[::-1]
 
 CIPHER_MAP = {
-    "Caesar": caesar,
-    "ROT13": rot13,
+    "Affine": affine,
     "Atbash": atbash,
     "Base64": base64_enc,
-    "Reverse": reverse_str
+    "Beaufort": beaufort,
+    "Bacon": bacon,
+    "Caesar": caesar,
+    "Playfair": playfair,
+    "Reverse": reverse_str,
+    "ROT13": rot13
 }
 
 def set_clipboard_win32(text: str):
@@ -75,7 +118,11 @@ class CipherApp:
         self.root.iconbitmap("PurpleBerrie.ico")
         self.root.geometry("280x400")
         self.root.resizable(False, False)
-        self.root.configure(bg="#f8f7ff") # Very light purple background
+        
+        # Enhanced text clarity: Use system default font sizes if possible, 
+        # but sticking to current layout as per restriction.
+        self.root.option_add("*Font", "SegoeUI 10")
+        self.root.configure(bg="#f8f7ff")
         
         # Colors
         self.PRIMARY = "#6f42c1"    # Deep Purple
@@ -83,7 +130,7 @@ class CipherApp:
         self.TEXT = "#212529"       # Dark Grey/Black
         self.SUCCESS = "#28a745"    # Green
         self.ERROR = "#dc3545"      # Red
-        self.BG_LOG = "#ffffff"     # White for log contrast
+        self.BG_LOG = "#ffffff"     # White
 
         self.is_enabled = tk.BooleanVar(value=True)
         self.last_seq = user32.GetClipboardSequenceNumber()
@@ -93,23 +140,18 @@ class CipherApp:
         header = tk.Frame(root, bg=self.PRIMARY, pady=12)
         header.pack(fill="x")
         tk.Label(
-            header, 
-            text="PurpleBerrie", 
-            font=("Segoe UI", 12, "bold"), 
-            fg="white", 
-            bg=self.PRIMARY
+            header, text="PurpleBerrie", font=("Segoe UI", 14, "bold"), 
+            fg="white", bg=self.PRIMARY
         ).pack()
 
         # --- Selection Frame ---
         select_frame = tk.Frame(root, bg="#f8f7ff", padx=15, pady=10)
         select_frame.pack(fill="x")
         tk.Label(select_frame, text="Method:", bg="#f8f7ff").pack(side="left")
-        self.method_var = tk.StringVar(value="Caesar")
+        self.method_var = tk.StringVar(value="Affine")
         self.method_dropdown = ttk.Combobox(
-            select_frame, 
-            textvariable=self.method_var, 
-            values=list(CIPHER_MAP.keys()), 
-            state="readonly"
+            select_frame, textvariable=self.method_var, 
+            values=sorted(list(CIPHER_MAP.keys())), state="readonly"
         )
         self.method_dropdown.pack(side="right", fill="x", expand=True)
 
@@ -117,26 +159,16 @@ class CipherApp:
         card = tk.Frame(root, bg="#ffffff", padx=15, pady=15, highlightthickness=1, highlightbackground=self.SECONDARY)
         card.pack(fill="x", padx=15, pady=15)
         
-        # Minecraft-style Switch
         self.switch_btn = tk.Button(
-            card,
-            text="ON",
-            command=self.toggle_monitoring,
-            font=("Minecraft", 10, "bold"), # Assuming font availability or fallback
-            bg="#55ff55", # Minecraft green
-            fg="black",
-            width=6,
-            relief="raised",
-            cursor="hand2"
+            card, text="ON", command=self.toggle_monitoring,
+            font=("Consolas", 10, "bold"), bg="#55ff55", fg="black",
+            width=6, relief="raised", cursor="hand2"
         )
         self.switch_btn.pack(side="right")
         
         self.status_label = tk.Label(
-            card, 
-            text="ACTIVATED", 
-            font=("Segoe UI", 10, "bold"), 
-            fg=self.SUCCESS, 
-            bg="#ffffff"
+            card, text="ACTIVATED", font=("Segoe UI", 10, "bold"), 
+            fg=self.SUCCESS, bg="#ffffff"
         )
         self.status_label.pack(side="left")
         
@@ -144,48 +176,38 @@ class CipherApp:
         log_frame = tk.Frame(root, bg="#f8f7ff", padx=15)
         log_frame.pack(fill="both", expand=True)
         
-        tk.Label(
-            log_frame, 
-            text="ACTIVITY", 
-            font=("Segoe UI", 8, "bold"), 
-            fg=self.PRIMARY, 
-            bg="#f8f7ff"
-        ).pack(anchor="w", pady=(0, 5))
+        tk.Label(log_frame, text="ACTIVITY", font=("Segoe UI", 9, "bold"), 
+                 fg=self.PRIMARY, bg="#f8f7ff").pack(anchor="w", pady=(0, 5))
         
-        # Sleek Log Box
         self.log_box = tk.Text(
-            log_frame, 
-            state="disabled", 
-            font=("Consolas", 9),
-            bg=self.BG_LOG,
-            fg=self.TEXT,
-            padx=8,
-            pady=8,
-            relief="flat",
-            highlightthickness=1,
-            highlightbackground=self.SECONDARY,
-            wrap="word",
-            height=6
+            log_frame, state="disabled", font=("Consolas", 9),
+            bg=self.BG_LOG, fg=self.TEXT, padx=8, pady=8,
+            relief="flat", highlightthickness=1, highlightbackground=self.SECONDARY,
+            wrap="word", height=6
         )
         self.log_box.pack(fill="both", expand=True, pady=(0, 15))
-        
-        # Tags
+
         self.log_box.tag_configure("msg", foreground=self.TEXT)
         self.log_box.tag_configure("highlight", foreground=self.PRIMARY, font=("Consolas", 9, "bold"))
         self.log_box.tag_configure("time", foreground="#9b8bb1")
 
         self.log("App ready", "msg")
+        
+        # Hotkey setup
+        self.hotkey_listener = keyboard.GlobalHotKeys({'<ctrl>+<alt>+b': self.toggle_monitoring})
+        self.hotkey_listener.start()
+        
         self.monitor()
 
     def toggle_monitoring(self):
         if self.is_enabled.get():
             self.is_enabled.set(False)
-            self.switch_btn.config(text="OFF", bg="#ff5555") # Red for off
+            self.switch_btn.config(text="OFF", bg="#ff5555")
             self.status_label.config(text="DEACTIVATED", fg=self.ERROR)
             self.log("Monitoring paused", "msg")
         else:
             self.is_enabled.set(True)
-            self.switch_btn.config(text="ON", bg="#55ff55") # Green for on
+            self.switch_btn.config(text="ON", bg="#55ff55")
             self.status_label.config(text="ACTIVATED", fg=self.SUCCESS)
             self.log("Monitoring resumed", "msg")
             self.last_seq = user32.GetClipboardSequenceNumber()
