@@ -71,8 +71,8 @@ def set_clipboard_win32(text: str):
 class CipherApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("PurpleBeryl")
-        self.root.iconbitmap("app_icon.ico")
+        self.root.title("PurpleBerrie")
+        self.root.iconbitmap("PurpleBerrie.ico")
         self.root.geometry("280x400")
         self.root.resizable(False, False)
         self.root.configure(bg="#f8f7ff") # Very light purple background
@@ -94,7 +94,7 @@ class CipherApp:
         header.pack(fill="x")
         tk.Label(
             header, 
-            text="PurpleBeryl", 
+            text="PurpleBerrie", 
             font=("Segoe UI", 12, "bold"), 
             fg="white", 
             bg=self.PRIMARY
