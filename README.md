@@ -9,7 +9,7 @@ This Windows utility provides seamless, real-time clipboard encryption. It conti
 - **Activity Log:** Real-time feedback on encryption tasks.
 
 ## How to Use
-1. Run `auto-cipher-v9.exe` (or run `auto_cipher_v9.py` if you have Python installed).
+1. Run `cipher-v1.exe` (or run `cipher_v1.py` if you have Python installed).
 2. Ensure the status shows **MONITORING ACTIVE**.
 3. Copy any text (e.g., "test").
 4. The text is immediately replaced on your clipboard with the encrypted version (e.g., "uftu").
@@ -26,7 +26,7 @@ This project is written in Python 3.13.
 To generate a standalone `.exe` file:
 ```bash
 pip install pyinstaller
-pyinstaller --noconfirm --onefile --noconsole --name auto-cipher-v9 auto_cipher_v9.py
+pyinstaller --noconfirm --onefile --noconsole --name cipher-v1 cipher_v1.py
 ```
 
 ## License
