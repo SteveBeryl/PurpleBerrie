@@ -5,20 +5,7 @@ try:
 except Exception:
     pass
 
-import sys
-import os
 import time
-
-def resource_path(relative_path):
-    """ Get absolute path to resource, works for dev and for PyInstaller """
-    try:
-        # PyInstaller creates a temp folder and stores path in _MEIPASS
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
-
-    return os.path.join(base_path, relative_path)
-
 import tkinter as tk
 from tkinter import ttk
 import codecs
@@ -134,15 +121,7 @@ class CipherApp:
     def __init__(self, root):
         self.root = root
         self.root.title("PurpleBerrie")
-        # Use iconphoto for more reliable icon loading in bundled apps
-        icon_path = resource_path("PurpleBerrie.ico")
-        if os.path.exists(icon_path):
-            try:
-                icon_image = tk.PhotoImage(file=icon_path)
-                self.root.iconphoto(True, icon_image)
-            except Exception as e:
-                # Fallback if PhotoImage fails
-                print(f"Could not load icon: {e}")
+        self.root.iconbitmap("PurpleBerrie.ico")
         self.root.geometry("320x450")
         
         # Transparency setup
