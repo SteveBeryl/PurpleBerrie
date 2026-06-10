@@ -18,6 +18,7 @@ def resource_path(relative_path):
 
     return os.path.join(base_path, relative_path)
 
+import tkinter as tk
 from tkinter import ttk
 import codecs
 import base64
