@@ -5,16 +5,17 @@ This Windows utility provides seamless, real-time clipboard encryption. It conti
 ## Available Versions
 
 ### **Version 5 (Latest)**
-- **App Name:** Renamed to **PurpleBerrie**.
-- **Enhanced Encryption:** Added 5 new algorithms (Affine, Bacon, Beaufort, Playfair, Reverse) for a total of 9 supported methods.
+- **App Name:** PurpleBerrie.
+- **New Encryption Algorithms (Added in V5):** Affine, Bacon, Beaufort, Playfair.
 - **Global Hotkey:** Toggle service globally using `Ctrl` + `Alt` + `B`.
-- **UI Improvements:** High-DPI awareness for sharper text, grid-based scalable layout, and removal of the header banner.
-- **High-Quality Branding:** New 512x512 high-resolution transparent icon.
+- **UI Improvements:** High-DPI awareness, grid-based layout, removal of header banner.
+- **Branding:** 512x512 transparent icon.
 
 ### **Version 4**
-- **App Name:** Renamed to **PurpleBeryl**.
+- **App Name:** PurpleBeryl.
+- **Original Encryption Algorithms:** Affine, Atbash, Base64, Caesar, Reverse, ROT13.
 - **Status Labels:** Updated to **ACTIVATED** and **DEACTIVATED**.
-- **Toggle:** Minecraft-style toggle button implemented.
+- **Toggle:** Minecraft-style toggle button.
 - **Icon:** Added blueberry-themed application icon.
 
 ### **Version 3**
