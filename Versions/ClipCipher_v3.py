@@ -20,7 +20,6 @@ def caesar(text: str, shift: int = 1) -> str:
     return "".join(out)
 
 def set_clipboard_win32(text: str):
-    """Fallback write method using Win32."""
     for _ in range(5):
         if not user32.OpenClipboard(None):
             time.sleep(0.1)
@@ -46,129 +45,116 @@ class CipherApp:
     def __init__(self, root):
         self.root = root
         self.root.title("ClipCipher")
-        self.root.geometry("280x320")
-        self.root.minsize(250, 280)
-        self.root.configure(bg="#ffffff")
+        self.root.geometry("280x350")
+        self.root.resizable(False, False)
+        self.root.configure(bg="#f8f7ff") # Very light purple background
         
-        # Configure styles
-        style = ttk.Style()
-        style.theme_use('clam')
-        style.configure("TFrame", background="#ffffff")
-        style.configure("TLabel", background="#ffffff", font=("Segoe UI", 8))
-        style.configure("Header.TLabel", font=("Segoe UI", 10, "bold"), foreground="#1a1a1a")
-        
+        # Colors
+        self.PRIMARY = "#6f42c1"    # Deep Purple
+        self.SECONDARY = "#e2d9f3"  # Light Purple
+        self.TEXT = "#212529"       # Dark Grey/Black
+        self.SUCCESS = "#28a745"    # Green
+        self.ERROR = "#dc3545"      # Red
+        self.BG_LOG = "#ffffff"     # White for log contrast
+
         self.is_enabled = tk.BooleanVar(value=True)
+        self.last_seq = user32.GetClipboardSequenceNumber()
+        self.ignore_next = False
         
-        # --- Simple Header ---
-        header_frame = tk.Frame(root, bg="#f8f9fa", pady=5, highlightthickness=1, highlightbackground="#e9ecef")
-        header_frame.pack(fill="x")
-        ttk.Label(header_frame, text="ClipCipher V3", style="Header.TLabel", background="#f8f9fa").pack()
+        # --- Aesthetic Header ---
+        header = tk.Frame(root, bg=self.PRIMARY, pady=12)
+        header.pack(fill="x")
+        tk.Label(
+            header, 
+            text="ClipCipher", 
+            font=("Segoe UI", 12, "bold"), 
+            fg="white", 
+            bg=self.PRIMARY
+        ).pack()
 
-        # --- Compact Control Panel ---
-        self.control_panel = tk.Frame(root, bg="#ffffff", padx=10, pady=10)
-        self.control_panel.pack(fill="x")
+        # --- Status & Control Card ---
+        card = tk.Frame(root, bg="#ffffff", padx=15, pady=15, highlightthickness=1, highlightbackground=self.SECONDARY)
+        card.pack(fill="x", padx=15, pady=15)
         
-        status_frame = tk.Frame(self.control_panel, bg="#ffffff")
-        status_frame.pack(side="left")
-
-        self.status_indicator = tk.Label(
-            status_frame, 
-            text="●", 
-            font=("Segoe UI", 10), 
-            fg="#28a745", 
+        self.status_label = tk.Label(
+            card, 
+            text="● ACTIVE", 
+            font=("Segoe UI", 10, "bold"), 
+            fg=self.SUCCESS, 
             bg="#ffffff"
         )
-        self.status_indicator.pack(side="left")
-        
-        self.status_text = tk.Label(
-            status_frame, 
-            text="ACTIVE", 
-            font=("Segoe UI", 8, "bold"), 
-            fg="#1a1a1a", 
-            bg="#ffffff",
-            padx=2
-        )
-        self.status_text.pack(side="left")
+        self.status_label.pack(side="left")
         
         self.toggle_btn = tk.Button(
-            self.control_panel, 
+            card, 
             text="PAUSE", 
             command=self.toggle_monitoring,
-            font=("Segoe UI", 8, "bold"),
-            bg="#007bff",
+            font=("Segoe UI", 9, "bold"),
+            bg=self.PRIMARY,
             fg="white",
-            padx=10,
-            pady=3,
+            padx=12,
+            pady=4,
             relief="flat",
-            activebackground="#0056b3",
+            activebackground="#5a32a3",
             activeforeground="white",
             cursor="hand2"
         )
         self.toggle_btn.pack(side="right")
         
-        # --- Log Container ---
-        log_container = tk.Frame(root, bg="#ffffff")
-        log_container.pack(fill="both", expand=True, padx=10, pady=5)
+        # --- Log Section ---
+        log_frame = tk.Frame(root, bg="#f8f7ff", padx=15)
+        log_frame.pack(fill="both", expand=True)
         
-        tk.Label(log_container, text="LOG", font=("Segoe UI", 7, "bold"), fg="#6c757d", bg="#ffffff").pack(anchor="w", pady=2)
+        tk.Label(
+            log_frame, 
+            text="ACTIVITY", 
+            font=("Segoe UI", 8, "bold"), 
+            fg=self.PRIMARY, 
+            bg="#f8f7ff"
+        ).pack(anchor="w", pady=(0, 5))
         
-        # Log Box with custom styling
+        # Sleek Log Box
         self.log_box = tk.Text(
-            log_container, 
+            log_frame, 
             state="disabled", 
-            font=("Consolas", 8),
-            bg="#f8f9fa",
-            fg="#212529",
-            padx=5,
-            pady=5,
+            font=("Consolas", 9),
+            bg=self.BG_LOG,
+            fg=self.TEXT,
+            padx=8,
+            pady=8,
             relief="flat",
             highlightthickness=1,
-            highlightbackground="#dee2e6",
+            highlightbackground=self.SECONDARY,
             wrap="word",
-            cursor="arrow",
             height=6
         )
-        self.log_box.pack(side="left", fill="both", expand=True)
+        self.log_box.pack(fill="both", expand=True, pady=(0, 15))
         
-        # Custom scrollbar
-        scrollbar = ttk.Scrollbar(log_container, orient="vertical", command=self.log_box.yview)
-        scrollbar.pack(side="right", fill="y")
-        self.log_box.configure(yscrollcommand=scrollbar.set)
-        
-        # Tag colors for the log
-        self.log_box.tag_configure("info", foreground="#6c757d")
-        self.log_box.tag_configure("success", foreground="#007bff", font=("Consolas", 10, "bold"))
-        self.log_box.tag_configure("action", foreground="#28a745")
-        self.log_box.tag_configure("error", foreground="#dc3545")
-        self.log_box.tag_configure("timestamp", foreground="#adb5bd")
+        # Tags
+        self.log_box.tag_configure("msg", foreground=self.TEXT)
+        self.log_box.tag_configure("highlight", foreground=self.PRIMARY, font=("Consolas", 9, "bold"))
+        self.log_box.tag_configure("time", foreground="#9b8bb1")
 
-        self.last_seq = user32.GetClipboardSequenceNumber()
-        self.ignore_next = False
-        
-        self.log("Ready. Auto-encryption is active.", "info")
+        self.log("App ready", "msg")
         self.monitor()
 
     def toggle_monitoring(self):
         if self.is_enabled.get():
             self.is_enabled.set(False)
-            self.toggle_btn.config(text="RESUME", bg="#28a745", activebackground="#218838")
-            self.status_indicator.config(fg="#dc3545")
-            self.status_text.config(text="MONITORING PAUSED")
-            self.log_box.config(bg="#fff5f5") # Light red background when paused
-            self.log("Monitoring paused.", "error")
+            self.toggle_btn.config(text="START", bg=self.SUCCESS)
+            self.status_label.config(text="○ PAUSED", fg=self.ERROR)
+            self.log("Monitoring paused", "msg")
         else:
             self.is_enabled.set(True)
-            self.toggle_btn.config(text="PAUSE", bg="#007bff", activebackground="#0056b3")
-            self.status_indicator.config(fg="#28a745")
-            self.status_text.config(text="MONITORING ACTIVE")
-            self.log_box.config(bg="#f8f9fa")
-            self.log("Monitoring resumed.", "info")
+            self.toggle_btn.config(text="PAUSE", bg=self.PRIMARY)
+            self.status_label.config(text="● ACTIVE", fg=self.SUCCESS)
+            self.log("Monitoring resumed", "msg")
             self.last_seq = user32.GetClipboardSequenceNumber()
 
-    def log(self, message, tag="info"):
+    def log(self, message, tag="msg"):
         self.log_box.config(state="normal")
-        timestamp = time.strftime('%H:%M:%S')
-        self.log_box.insert("end", f"[{timestamp}] ", "timestamp")
+        timestamp = time.strftime('%H:%M')
+        self.log_box.insert("end", f"{timestamp} ", "time")
         self.log_box.insert("end", f"{message}\n", tag)
         self.log_box.see("end")
         self.log_box.config(state="disabled")
@@ -178,40 +164,28 @@ class CipherApp:
             curr_seq = user32.GetClipboardSequenceNumber()
             if curr_seq != self.last_seq:
                 self.last_seq = curr_seq
-                
-                if self.ignore_next:
-                    self.ignore_next = False
-                else:
+                if not self.ignore_next:
                     time.sleep(0.1)
-                    
-                    content = None
-                    for attempt in range(5):
-                        try:
-                            content = self.root.clipboard_get()
-                            break
-                        except tk.TclError:
-                            time.sleep(0.1)
-                    
-                    if content:
-                        preview = (content[:25] + "..") if len(content) > 25 else content
-                        self.log(f"DETECTED: '{preview}'", "success")
-                        encrypted = caesar(content, 1)
-                        
-                        self.ignore_next = True
-                        try:
-                            self.root.clipboard_clear()
-                            self.root.clipboard_append(encrypted)
-                            self.root.update() 
-                            self.log("ACTION: Encrypted & copied.", "action")
-                            self.last_seq = user32.GetClipboardSequenceNumber()
-                        except tk.TclError:
-                            if set_clipboard_win32(encrypted):
-                                self.log("ACTION: Encrypted (Win32 Fallback).", "action")
+                    try:
+                        content = self.root.clipboard_get()
+                        if content:
+                            self.log("Copy detected", "highlight")
+                            encrypted = caesar(content, 1)
+                            self.ignore_next = True
+                            try:
+                                self.root.clipboard_clear()
+                                self.root.clipboard_append(encrypted)
+                                self.root.update()
+                                self.log("Encrypted & saved", "msg")
                                 self.last_seq = user32.GetClipboardSequenceNumber()
-                            else:
-                                self.ignore_next = False
-                                self.log("ERROR: Write failed.", "error")
-        
+                            except:
+                                if set_clipboard_win32(encrypted):
+                                    self.log("Encrypted (win32)", "msg")
+                                    self.last_seq = user32.GetClipboardSequenceNumber()
+                    except tk.TclError:
+                        pass
+                else:
+                    self.ignore_next = False
         self.root.after(200, self.monitor)
 
 if __name__ == "__main__":
