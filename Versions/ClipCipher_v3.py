@@ -45,46 +45,48 @@ def set_clipboard_win32(text: str):
 class CipherApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("ClipCipher V3")
-        self.root.geometry("400x420")
-        self.root.minsize(350, 350)
+        self.root.title("ClipCipher")
+        self.root.geometry("280x320")
+        self.root.minsize(250, 280)
         self.root.configure(bg="#ffffff")
         
         # Configure styles
         style = ttk.Style()
         style.theme_use('clam')
         style.configure("TFrame", background="#ffffff")
-        style.configure("TLabel", background="#ffffff", font=("Segoe UI", 9))
-        style.configure("Header.TLabel", font=("Segoe UI", 12, "bold"), foreground="#1a1a1a")
-        style.configure("Status.TLabel", font=("Segoe UI", 10, "bold"))
+        style.configure("TLabel", background="#ffffff", font=("Segoe UI", 8))
+        style.configure("Header.TLabel", font=("Segoe UI", 10, "bold"), foreground="#1a1a1a")
         
         self.is_enabled = tk.BooleanVar(value=True)
         
-        # --- Top Header ---
-        header_frame = tk.Frame(root, bg="#f8f9fa", pady=10, highlightthickness=1, highlightbackground="#e9ecef")
+        # --- Simple Header ---
+        header_frame = tk.Frame(root, bg="#f8f9fa", pady=5, highlightthickness=1, highlightbackground="#e9ecef")
         header_frame.pack(fill="x")
         ttk.Label(header_frame, text="ClipCipher V3", style="Header.TLabel", background="#f8f9fa").pack()
 
-        # --- Control Panel ---
-        self.control_panel = tk.Frame(root, bg="#ffffff", padx=15, pady=10)
+        # --- Compact Control Panel ---
+        self.control_panel = tk.Frame(root, bg="#ffffff", padx=10, pady=10)
         self.control_panel.pack(fill="x")
         
+        status_frame = tk.Frame(self.control_panel, bg="#ffffff")
+        status_frame.pack(side="left")
+
         self.status_indicator = tk.Label(
-            self.control_panel, 
+            status_frame, 
             text="●", 
-            font=("Segoe UI", 12), 
+            font=("Segoe UI", 10), 
             fg="#28a745", 
             bg="#ffffff"
         )
         self.status_indicator.pack(side="left")
         
         self.status_text = tk.Label(
-            self.control_panel, 
+            status_frame, 
             text="ACTIVE", 
-            font=("Segoe UI", 10, "bold"), 
+            font=("Segoe UI", 8, "bold"), 
             fg="#1a1a1a", 
             bg="#ffffff",
-            padx=5
+            padx=2
         )
         self.status_text.pack(side="left")
         
@@ -92,11 +94,11 @@ class CipherApp:
             self.control_panel, 
             text="PAUSE", 
             command=self.toggle_monitoring,
-            font=("Segoe UI", 9, "bold"),
+            font=("Segoe UI", 8, "bold"),
             bg="#007bff",
             fg="white",
-            padx=15,
-            pady=5,
+            padx=10,
+            pady=3,
             relief="flat",
             activebackground="#0056b3",
             activeforeground="white",
@@ -106,27 +108,25 @@ class CipherApp:
         
         # --- Log Container ---
         log_container = tk.Frame(root, bg="#ffffff")
-        log_container.pack(fill="both", expand=True, padx=15, pady=5)
+        log_container.pack(fill="both", expand=True, padx=10, pady=5)
         
-        log_header = tk.Frame(log_container, bg="#ffffff")
-        log_header.pack(fill="x", pady=2)
-        tk.Label(log_header, text="LOG", font=("Segoe UI", 8, "bold"), fg="#6c757d", bg="#ffffff").pack(side="left")
+        tk.Label(log_container, text="LOG", font=("Segoe UI", 7, "bold"), fg="#6c757d", bg="#ffffff").pack(anchor="w", pady=2)
         
         # Log Box with custom styling
         self.log_box = tk.Text(
             log_container, 
             state="disabled", 
-            font=("Consolas", 9),
+            font=("Consolas", 8),
             bg="#f8f9fa",
             fg="#212529",
-            padx=10,
-            pady=10,
+            padx=5,
+            pady=5,
             relief="flat",
             highlightthickness=1,
             highlightbackground="#dee2e6",
             wrap="word",
             cursor="arrow",
-            height=8
+            height=6
         )
         self.log_box.pack(side="left", fill="both", expand=True)
         
