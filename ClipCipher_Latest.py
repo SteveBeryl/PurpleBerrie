@@ -122,7 +122,7 @@ class CipherApp:
         self.root = root
         self.root.title("PurpleBerrie")
         self.root.iconbitmap("PurpleBerrie.ico")
-        self.root.geometry("280x400")
+        self.root.geometry("320x450")
         self.root.resizable(False, False)
         
         # Enhanced text clarity: Use system default font sizes if possible, 
