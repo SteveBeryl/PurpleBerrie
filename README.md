@@ -5,23 +5,19 @@ This Windows utility provides seamless, real-time clipboard encryption. It conti
 ## Available Versions
 
 ### **Version 6 (Latest)**
-- **App Name:** PurpleBerrie.
-- **Transparency:** Application window is now set to 0.2 alpha transparency.
-- **Enhanced Encryption:** 9 algorithms (Affine, Atbash, Bacon, Base64, Beaufort, Caesar, Playfair, Reverse, ROT13).
-- **Global Hotkey:** Toggle service globally using `Ctrl` + `Alt` + `B`.
-- **UI Improvements:** High-DPI awareness, grid-based layout, removal of header banner.
-- **Branding:** 512x512 transparent icon.
+- **App Name:** Renamed to "Berly".
+- **Transparency:** Window alpha transparency set to 0.9.
+- **UI Improvements:** Optimized grid-based layout and removed header banner for a cleaner look.
 
 ### **Version 5**
-- **App Name:** PurpleBerrie.
-- **Encryption Engine:** 9 algorithms (Affine, Atbash, Bacon, Base64, Beaufort, Caesar, Playfair, Reverse, ROT13).
+- **Enhanced Encryption:** Added 5 new algorithms (Affine, Bacon, Beaufort, Playfair, Reverse).
 - **Global Hotkey:** Toggle service globally using `Ctrl` + `Alt` + `B`.
-- **UI Improvements:** High-DPI awareness, grid-based layout.
-- **Branding:** 512x512 transparent icon.
+- **UI Improvements:** High-DPI awareness for sharper text rendering.
+- **Branding:** High-resolution 512x512 transparent icon.
 
 ### **Version 4**
 - **App Name:** PurpleBeryl.
-- **Original Encryption Algorithms:** Affine, Atbash, Base64, Caesar, Reverse, ROT13.
+- **Original Encryption Algorithms:** Atbash, Base64, Caesar, ROT13.
 - **Status Labels:** Updated to **ACTIVATED** and **DEACTIVATED**.
 - **Toggle:** Minecraft-style toggle button.
 - **Icon:** Added blueberry-themed application icon.
