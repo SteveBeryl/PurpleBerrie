@@ -105,8 +105,8 @@ class CipherApp:
         self.toggle_btn.pack(side="right")
         
         # --- Log Container ---
-        log_container = tk.Frame(root, bg="#ffffff", padx=20, pady=(0, 20))
-        log_container.pack(fill="both", expand=True)
+        log_container = tk.Frame(root, bg="#ffffff")
+        log_container.pack(fill="both", expand=True, padx=20, pady=(0, 20))
         
         log_header = tk.Frame(log_container, bg="#ffffff")
         log_header.pack(fill="x", pady=(0, 10))
