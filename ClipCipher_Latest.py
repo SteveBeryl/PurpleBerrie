@@ -2,6 +2,8 @@ import ctypes
 import time
 import tkinter as tk
 from tkinter import ttk
+import codecs
+import base64
 
 # ---------- Windows API (for monitoring and writing) ----------
 user32 = ctypes.windll.user32
@@ -18,6 +20,31 @@ def caesar(text: str, shift: int = 1) -> str:
         elif 97 <= code <= 122: out.append(chr((code - 97 + s) % 26 + 97))
         else: out.append(ch)
     return "".join(out)
+
+def rot13(text: str) -> str:
+    return codecs.encode(text, 'rot_13')
+
+def atbash(text: str) -> str:
+    res = []
+    for ch in text:
+        if 'a' <= ch <= 'z': res.append(chr(ord('z') - (ord(ch) - ord('a'))))
+        elif 'A' <= ch <= 'Z': res.append(chr(ord('Z') - (ord(ch) - ord('A'))))
+        else: res.append(ch)
+    return "".join(res)
+
+def base64_enc(text: str) -> str:
+    return base64.b64encode(text.encode('utf-8')).decode('utf-8')
+
+def reverse_str(text: str) -> str:
+    return text[::-1]
+
+CIPHER_MAP = {
+    "Caesar": caesar,
+    "ROT13": rot13,
+    "Atbash": atbash,
+    "Base64": base64_enc,
+    "Reverse": reverse_str
+}
 
 def set_clipboard_win32(text: str):
     for _ in range(5):
@@ -44,8 +71,8 @@ def set_clipboard_win32(text: str):
 class CipherApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("ClipCipher")
-        self.root.geometry("280x350")
+        self.root.title("ClipCipher V4")
+        self.root.geometry("280x400")
         self.root.resizable(False, False)
         self.root.configure(bg="#f8f7ff") # Very light purple background
         
@@ -66,11 +93,24 @@ class CipherApp:
         header.pack(fill="x")
         tk.Label(
             header, 
-            text="ClipCipher", 
+            text="ClipCipher V4", 
             font=("Segoe UI", 12, "bold"), 
             fg="white", 
             bg=self.PRIMARY
         ).pack()
+
+        # --- Selection Frame ---
+        select_frame = tk.Frame(root, bg="#f8f7ff", padx=15, pady=10)
+        select_frame.pack(fill="x")
+        tk.Label(select_frame, text="Method:", bg="#f8f7ff").pack(side="left")
+        self.method_var = tk.StringVar(value="Caesar")
+        self.method_dropdown = ttk.Combobox(
+            select_frame, 
+            textvariable=self.method_var, 
+            values=list(CIPHER_MAP.keys()), 
+            state="readonly"
+        )
+        self.method_dropdown.pack(side="right", fill="x", expand=True)
 
         # --- Status & Control Card ---
         card = tk.Frame(root, bg="#ffffff", padx=15, pady=15, highlightthickness=1, highlightbackground=self.SECONDARY)
@@ -170,17 +210,18 @@ class CipherApp:
                         content = self.root.clipboard_get()
                         if content:
                             self.log("Copy detected", "highlight")
-                            encrypted = caesar(content, 1)
+                            cipher_func = CIPHER_MAP.get(self.method_var.get(), caesar)
+                            encrypted = cipher_func(content)
                             self.ignore_next = True
                             try:
                                 self.root.clipboard_clear()
                                 self.root.clipboard_append(encrypted)
                                 self.root.update()
-                                self.log("Encrypted & saved", "msg")
+                                self.log(f"Encrypted ({self.method_var.get()})", "msg")
                                 self.last_seq = user32.GetClipboardSequenceNumber()
                             except:
                                 if set_clipboard_win32(encrypted):
-                                    self.log("Encrypted (win32)", "msg")
+                                    self.log(f"Encrypted ({self.method_var.get()}) (win32)", "msg")
                                     self.last_seq = user32.GetClipboardSequenceNumber()
                     except tk.TclError:
                         pass
