@@ -134,7 +134,17 @@ class CipherApp:
         self.root.option_add("*Font", self.FONT_MAIN)
         self.root.configure(bg="#f8f7ff")
         
-        # ... (rest of the __init__ variables)
+        # Colors
+        self.PRIMARY = "#6f42c1"    # Deep Purple
+        self.SECONDARY = "#e2d9f3"  # Light Purple
+        self.TEXT = "#212529"       # Dark Grey/Black
+        self.SUCCESS = "#28a745"    # Green
+        self.ERROR = "#dc3545"      # Red
+        self.BG_LOG = "#ffffff"     # White
+
+        self.is_enabled = tk.BooleanVar(value=True)
+        self.last_seq = user32.GetClipboardSequenceNumber()
+        self.ignore_next = False
         
         # --- Aesthetic Header ---
         header = tk.Frame(root, bg=self.PRIMARY, pady=12)
