@@ -2,7 +2,8 @@
  False,
  False,
  False,
- ['C:\\Users\\Berry\\Downloads\\cipher-project\\blueberry.ico'],
+ ['C:\\Users\\Berry\\Downloads\\cipher-project\\..\\Screenshot_20260610_082701_Samsung '
+  'Notes(1).png'],
  None,
  False,
  False,
@@ -2878,7 +2879,7 @@
  [],
  False,
  False,
- 1781085905,
+ 1781086055,
  [('runw.exe',
    'C:\\Users\\Berry\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\PyInstaller\\bootloader\\Windows-64bit-intel\\runw.exe',
    'EXECUTABLE')],

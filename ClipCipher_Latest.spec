@@ -35,5 +35,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['blueberry.ico'],
+    icon=['..\\Screenshot_20260610_082701_Samsung Notes(1).png'],
 )
