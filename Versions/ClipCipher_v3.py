@@ -46,33 +46,33 @@ class CipherApp:
     def __init__(self, root):
         self.root = root
         self.root.title("ClipCipher V3")
-        self.root.geometry("600x520")
-        self.root.minsize(500, 450)
+        self.root.geometry("400x420")
+        self.root.minsize(350, 350)
         self.root.configure(bg="#ffffff")
         
         # Configure styles
         style = ttk.Style()
         style.theme_use('clam')
         style.configure("TFrame", background="#ffffff")
-        style.configure("TLabel", background="#ffffff", font=("Segoe UI", 10))
-        style.configure("Header.TLabel", font=("Segoe UI", 16, "bold"), foreground="#1a1a1a")
-        style.configure("Status.TLabel", font=("Segoe UI", 11, "bold"))
+        style.configure("TLabel", background="#ffffff", font=("Segoe UI", 9))
+        style.configure("Header.TLabel", font=("Segoe UI", 12, "bold"), foreground="#1a1a1a")
+        style.configure("Status.TLabel", font=("Segoe UI", 10, "bold"))
         
         self.is_enabled = tk.BooleanVar(value=True)
         
         # --- Top Header ---
-        header_frame = tk.Frame(root, bg="#f8f9fa", pady=15, highlightthickness=1, highlightbackground="#e9ecef")
+        header_frame = tk.Frame(root, bg="#f8f9fa", pady=10, highlightthickness=1, highlightbackground="#e9ecef")
         header_frame.pack(fill="x")
         ttk.Label(header_frame, text="ClipCipher V3", style="Header.TLabel", background="#f8f9fa").pack()
 
         # --- Control Panel ---
-        self.control_panel = tk.Frame(root, bg="#ffffff", padx=20, pady=20)
+        self.control_panel = tk.Frame(root, bg="#ffffff", padx=15, pady=10)
         self.control_panel.pack(fill="x")
         
         self.status_indicator = tk.Label(
             self.control_panel, 
             text="●", 
-            font=("Segoe UI", 14), 
+            font=("Segoe UI", 12), 
             fg="#28a745", 
             bg="#ffffff"
         )
@@ -80,11 +80,11 @@ class CipherApp:
         
         self.status_text = tk.Label(
             self.control_panel, 
-            text="MONITORING ACTIVE", 
-            font=("Segoe UI", 11, "bold"), 
+            text="ACTIVE", 
+            font=("Segoe UI", 10, "bold"), 
             fg="#1a1a1a", 
             bg="#ffffff",
-            padx=10
+            padx=5
         )
         self.status_text.pack(side="left")
         
@@ -92,11 +92,11 @@ class CipherApp:
             self.control_panel, 
             text="PAUSE", 
             command=self.toggle_monitoring,
-            font=("Segoe UI", 10, "bold"),
+            font=("Segoe UI", 9, "bold"),
             bg="#007bff",
             fg="white",
-            padx=20,
-            pady=8,
+            padx=15,
+            pady=5,
             relief="flat",
             activebackground="#0056b3",
             activeforeground="white",
@@ -106,26 +106,27 @@ class CipherApp:
         
         # --- Log Container ---
         log_container = tk.Frame(root, bg="#ffffff")
-        log_container.pack(fill="both", expand=True, padx=20, pady=10)
+        log_container.pack(fill="both", expand=True, padx=15, pady=5)
         
         log_header = tk.Frame(log_container, bg="#ffffff")
-        log_header.pack(fill="x", pady=5)
-        tk.Label(log_header, text="ACTIVITY LOG", font=("Segoe UI", 9, "bold"), fg="#6c757d", bg="#ffffff").pack(side="left")
+        log_header.pack(fill="x", pady=2)
+        tk.Label(log_header, text="LOG", font=("Segoe UI", 8, "bold"), fg="#6c757d", bg="#ffffff").pack(side="left")
         
         # Log Box with custom styling
         self.log_box = tk.Text(
             log_container, 
             state="disabled", 
-            font=("Consolas", 10),
+            font=("Consolas", 9),
             bg="#f8f9fa",
             fg="#212529",
-            padx=15,
-            pady=15,
+            padx=10,
+            pady=10,
             relief="flat",
             highlightthickness=1,
             highlightbackground="#dee2e6",
             wrap="word",
-            cursor="arrow"
+            cursor="arrow",
+            height=8
         )
         self.log_box.pack(side="left", fill="both", expand=True)
         
