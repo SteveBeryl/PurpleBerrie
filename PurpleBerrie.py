@@ -133,7 +133,15 @@ class CipherApp:
     def __init__(self, root):
         self.root = root
         self.root.title("PurpleBerrie")
-        self.root.iconbitmap(resource_path("PurpleBerrie.ico"))
+        # Use iconphoto for more reliable icon loading in bundled apps
+        icon_path = resource_path("PurpleBerrie.ico")
+        if os.path.exists(icon_path):
+            try:
+                icon_image = tk.PhotoImage(file=icon_path)
+                self.root.iconphoto(True, icon_image)
+            except Exception as e:
+                # Fallback if PhotoImage fails
+                print(f"Could not load icon: {e}")
         self.root.geometry("320x450")
         
         # Transparency setup
