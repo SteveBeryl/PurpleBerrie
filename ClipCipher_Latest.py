@@ -126,7 +126,7 @@ class CipherApp:
         
         # Transparency setup
         self.transparency_levels = [0.8, 0.9, 1.0]
-        self.transparency_index = 1
+        self.transparency_index = 2
         self.root.attributes('-alpha', self.transparency_levels[self.transparency_index])
         
         # Enable grid scaling
