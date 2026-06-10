@@ -4,22 +4,25 @@ This Windows utility provides seamless, real-time clipboard encryption. It conti
 
 ## Available Versions
 
-### **Version 2 (Current)**
-- **Enhanced UI:** Color-coded logs, modern fonts, and improved layout.
-- **Detailed Feedback:** Real-time visibility of detection and encryption actions.
-- **Toggle Control:** Easily pause or resume monitoring with a single button.
+### **Version 3 (Latest)**
+- **Refined UI:** Professional, high-contrast interface with improved visual hierarchy.
+- **Enhanced Legibility:** Optimized font weights and clearer activity log layout.
+- **Dynamic Feedback:** Real-time visibility of clipboard changes with color-coded status.
+
+### **Version 2**
+- **Original Enhanced UI:** Color-coded logs and improved layout.
+- **Reliable Logic:** Uses the same resilient hybrid engine.
 
 ### **Version 1 (Legacy)**
-- **Original UI:** Simple, clean interface using standard Tkinter elements.
-- **Reliable Logic:** Uses the same resilient hybrid engine as V2.
+- **Classic UI:** Simple, clean interface using standard Tkinter elements.
 
 ## Features
 - **Always-On Monitoring:** Automatically detects clipboard changes.
 - **GUI Control:** Toggle monitoring on/off with a single click.
-- **Resilient Engine:** Uses a hybrid high-level (Tkinter) and low-level (Win32) approach to ensure compatibility and stability on Windows.
+- **Resilient Engine:** Uses a hybrid high-level (Tkinter) and low-level (Win32) approach for maximum stability on Windows.
 
 ## How to Use
-1. Run `cipher-v2.exe` for the enhanced UI, or `cipher-v1.exe` for the legacy look.
+1. Run `ClipCipher_Latest.exe` for the most up-to-date experience.
 2. Ensure the status shows **MONITORING ACTIVE**.
 3. Copy any text (e.g., "test").
 4. The text is immediately replaced on your clipboard with the encrypted version (e.g., "uftu").
@@ -35,10 +38,8 @@ This project is written in Python 3.13.
 ### Building the Executable
 ```bash
 pip install pyinstaller
-# To build V1
-pyinstaller --noconfirm --onefile --noconsole --name cipher-v1 cipher_v1.py
-# To build V2
-pyinstaller --noconfirm --onefile --noconsole --name cipher-v2 cipher_v2.py
+# To build Latest (V3)
+pyinstaller ClipCipher_Latest.spec
 ```
 
 ## License
