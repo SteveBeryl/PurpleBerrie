@@ -2,11 +2,11 @@
 
 
 a = Analysis(
-    ['PurpleBerrie.py'],
+    ['Versions\\PurpleBerrie_V6.py'],
     pathex=[],
     binaries=[],
-    datas=[('PurpleBerrie.ico', '.')],
-    hiddenimports=['pynput'],
+    datas=[],
+    hiddenimports=[],
     hookspath=[],
     hooksconfig={},
     runtime_hooks=[],
@@ -35,6 +35,4 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['PurpleBerrie.ico'],
 )
-
