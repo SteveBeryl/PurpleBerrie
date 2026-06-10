@@ -24,3 +24,4 @@ Before every compilation, the following steps MUST be executed in order:
 ## 4. Archival Protocol
 - The `Versions/` folder is reserved for archiving previous releases.
 - While I only have the latest version (V6) in the repository currently, any future major changes should archive the previous executable here before pushing the new one.
+

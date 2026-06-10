@@ -5,7 +5,7 @@ This Windows utility provides seamless, real-time clipboard encryption. It conti
 ## Available Versions
 
 ### **Version 6 (Latest)**
-- **App Name:** Renamed to "Berly".
+- **App Name:** Renamed to "PurpleBerrie".
 - **Transparency:** Window alpha transparency set to 0.9.
 - **UI Improvements:** Optimized grid-based layout and removed header banner for a cleaner look.
 
@@ -47,3 +47,4 @@ This Windows utility provides seamless, real-time clipboard encryption. It conti
 
 ## Last Updated
 June 10, 2026
+
