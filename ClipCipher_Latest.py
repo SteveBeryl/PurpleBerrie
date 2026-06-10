@@ -1,4 +1,10 @@
 import ctypes
+# Enable high-DPI awareness
+try:
+    ctypes.windll.shcore.SetProcessDpiAwareness(1)
+except Exception:
+    pass
+
 import time
 import tkinter as tk
 from tkinter import ttk
