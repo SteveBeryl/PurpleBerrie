@@ -116,30 +116,28 @@ class CipherApp:
         card = tk.Frame(root, bg="#ffffff", padx=15, pady=15, highlightthickness=1, highlightbackground=self.SECONDARY)
         card.pack(fill="x", padx=15, pady=15)
         
+        # Minecraft-style Switch
+        self.switch_btn = tk.Button(
+            card,
+            text="ON",
+            command=self.toggle_monitoring,
+            font=("Minecraft", 10, "bold"), # Assuming font availability or fallback
+            bg="#55ff55", # Minecraft green
+            fg="black",
+            width=6,
+            relief="raised",
+            cursor="hand2"
+        )
+        self.switch_btn.pack(side="right")
+        
         self.status_label = tk.Label(
             card, 
-            text="● ACTIVE", 
+            text="MONITORING", 
             font=("Segoe UI", 10, "bold"), 
             fg=self.SUCCESS, 
             bg="#ffffff"
         )
         self.status_label.pack(side="left")
-        
-        self.toggle_btn = tk.Button(
-            card, 
-            text="PAUSE", 
-            command=self.toggle_monitoring,
-            font=("Segoe UI", 9, "bold"),
-            bg=self.PRIMARY,
-            fg="white",
-            padx=12,
-            pady=4,
-            relief="flat",
-            activebackground="#5a32a3",
-            activeforeground="white",
-            cursor="hand2"
-        )
-        self.toggle_btn.pack(side="right")
         
         # --- Log Section ---
         log_frame = tk.Frame(root, bg="#f8f7ff", padx=15)
@@ -181,13 +179,13 @@ class CipherApp:
     def toggle_monitoring(self):
         if self.is_enabled.get():
             self.is_enabled.set(False)
-            self.toggle_btn.config(text="START", bg=self.SUCCESS)
-            self.status_label.config(text="○ PAUSED", fg=self.ERROR)
+            self.switch_btn.config(text="OFF", bg="#ff5555") # Red for off
+            self.status_label.config(text="PAUSED", fg=self.ERROR)
             self.log("Monitoring paused", "msg")
         else:
             self.is_enabled.set(True)
-            self.toggle_btn.config(text="PAUSE", bg=self.PRIMARY)
-            self.status_label.config(text="● ACTIVE", fg=self.SUCCESS)
+            self.switch_btn.config(text="ON", bg="#55ff55") # Green for on
+            self.status_label.config(text="MONITORING", fg=self.SUCCESS)
             self.log("Monitoring resumed", "msg")
             self.last_seq = user32.GetClipboardSequenceNumber()
 
