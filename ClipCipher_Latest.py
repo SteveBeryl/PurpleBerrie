@@ -123,7 +123,11 @@ class CipherApp:
         self.root.title("Berly")
         self.root.iconbitmap("PurpleBerrie.ico")
         self.root.geometry("320x450")
-        self.root.attributes('-alpha', 0.9)
+        
+        # Transparency setup
+        self.transparency_levels = [0.8, 0.9, 1.0]
+        self.transparency_index = 1
+        self.root.attributes('-alpha', self.transparency_levels[self.transparency_index])
         
         # Enable grid scaling
         self.root.grid_columnconfigure(0, weight=1)
@@ -197,10 +201,19 @@ class CipherApp:
         self.log("App ready", "msg")
         
         # Hotkey setup
-        self.hotkey_listener = keyboard.GlobalHotKeys({'<ctrl>+<alt>+b': self.toggle_monitoring})
+        self.hotkey_listener = keyboard.GlobalHotKeys({
+            '<ctrl>+<alt>+b': self.toggle_monitoring,
+            '<ctrl>+<alt>+t': self.toggle_transparency
+        })
         self.hotkey_listener.start()
         
         self.monitor()
+
+    def toggle_transparency(self):
+        self.transparency_index = (self.transparency_index + 1) % len(self.transparency_levels)
+        alpha = self.transparency_levels[self.transparency_index]
+        self.root.attributes('-alpha', alpha)
+        self.log(f"Transparency: {alpha}", "msg")
 
     def toggle_monitoring(self):
         if self.is_enabled.get():
