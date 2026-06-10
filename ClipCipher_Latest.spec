@@ -5,7 +5,7 @@ a = Analysis(
     ['ClipCipher_Latest.py'],
     pathex=[],
     binaries=[],
-    datas=[],
+    datas=[('app_icon.ico', '.')],
     hiddenimports=[],
     hookspath=[],
     hooksconfig={},
@@ -35,5 +35,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
-    icon=['..\\Beryl_Poster_CROPPED.jpg'],
+    icon=['app_icon.ico'],
 )

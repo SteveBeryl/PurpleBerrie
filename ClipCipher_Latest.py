@@ -72,6 +72,7 @@ class CipherApp:
     def __init__(self, root):
         self.root = root
         self.root.title("ClipCipher V4")
+        self.root.iconbitmap("app_icon.ico")
         self.root.geometry("280x400")
         self.root.resizable(False, False)
         self.root.configure(bg="#f8f7ff") # Very light purple background
