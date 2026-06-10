@@ -6,15 +6,16 @@ This Windows utility provides seamless, real-time clipboard encryption. It conti
 
 ### **Version 5 (Latest)**
 - **App Name:** Renamed to **PurpleBerrie**.
-- **Global Hotkey:** Toggle service using `Ctrl` + `Alt` + `B`.
-- **Encryption Engine:** 9 algorithms (Affine, Atbash, Bacon, Base64, Beaufort, Caesar, Playfair, Reverse, ROT13).
-- **Enhanced UI:** Grid-based scaling, high-DPI awareness, clearer font (Segoe UI 11).
-- **High-Quality Branding:** 512x512 transparent icon.
+- **Enhanced Encryption:** Added 5 new algorithms (Affine, Bacon, Beaufort, Playfair, Reverse) for a total of 9 supported methods.
+- **Global Hotkey:** Toggle service globally using `Ctrl` + `Alt` + `B`.
+- **UI Improvements:** High-DPI awareness for sharper text, grid-based scalable layout, and removal of the header banner.
+- **High-Quality Branding:** New 512x512 high-resolution transparent icon.
 
 ### **Version 4**
 - **App Name:** Renamed to **PurpleBeryl**.
-- **Toggle:** Minecraft-style toggle button.
-- **Icon:** Added blueberry icon.
+- **Status Labels:** Updated to **ACTIVATED** and **DEACTIVATED**.
+- **Toggle:** Minecraft-style toggle button implemented.
+- **Icon:** Added blueberry-themed application icon.
 
 ### **Version 3**
 - **Refined UI:** High-contrast interface, improved visual hierarchy.
@@ -29,11 +30,10 @@ This Windows utility provides seamless, real-time clipboard encryption. It conti
 
 ## How to Use
 1. Run `PurpleBerrie.exe`.
-2. Select the desired encryption algorithm.
-3. Ensure the status shows **ACTIVATED**.
-4. Copy any text.
-5. The text is immediately replaced on your clipboard with the encrypted version.
-6. Paste anywhere!
+2. Select your desired encryption algorithm from the dropdown.
+3. Use the toggle button or the global hotkey (`Ctrl` + `Alt` + `B`) to enable/disable encryption.
+4. Copy any text; it will be immediately replaced on your clipboard with the encrypted version.
+5. Paste anywhere!
 
 ## Development
 - **Language:** Python 3.13
