@@ -2881,7 +2881,7 @@
  [],
  False,
  False,
- 1781099942,
+ 1781100050,
  [('runw.exe',
    'C:\\Users\\Berry\\AppData\\Local\\hermes\\hermes-agent\\venv\\Lib\\site-packages\\PyInstaller\\bootloader\\Windows-64bit-intel\\runw.exe',
    'EXECUTABLE')],
