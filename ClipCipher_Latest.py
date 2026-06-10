@@ -71,7 +71,7 @@ def set_clipboard_win32(text: str):
 class CipherApp:
     def __init__(self, root):
         self.root = root
-        self.root.title("ClipCipher V4")
+        self.root.title("PurpleBeryl")
         self.root.iconbitmap("app_icon.ico")
         self.root.geometry("280x400")
         self.root.resizable(False, False)
@@ -94,7 +94,7 @@ class CipherApp:
         header.pack(fill="x")
         tk.Label(
             header, 
-            text="ClipCipher V4", 
+            text="PurpleBeryl", 
             font=("Segoe UI", 12, "bold"), 
             fg="white", 
             bg=self.PRIMARY
@@ -133,7 +133,7 @@ class CipherApp:
         
         self.status_label = tk.Label(
             card, 
-            text="MONITORING", 
+            text="ACTIVATED", 
             font=("Segoe UI", 10, "bold"), 
             fg=self.SUCCESS, 
             bg="#ffffff"
@@ -181,12 +181,12 @@ class CipherApp:
         if self.is_enabled.get():
             self.is_enabled.set(False)
             self.switch_btn.config(text="OFF", bg="#ff5555") # Red for off
-            self.status_label.config(text="PAUSED", fg=self.ERROR)
+            self.status_label.config(text="DEACTIVATED", fg=self.ERROR)
             self.log("Monitoring paused", "msg")
         else:
             self.is_enabled.set(True)
             self.switch_btn.config(text="ON", bg="#55ff55") # Green for on
-            self.status_label.config(text="MONITORING", fg=self.SUCCESS)
+            self.status_label.config(text="ACTIVATED", fg=self.SUCCESS)
             self.log("Monitoring resumed", "msg")
             self.last_seq = user32.GetClipboardSequenceNumber()
 
